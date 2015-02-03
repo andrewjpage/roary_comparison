@@ -1,0 +1,13 @@
+ e-value cut-off: <= 1e-05
+percent identity: >= 20
+ length of match: >= 1
+input .btab file: /usr/local/scratch/dfouts/panoct_v1.9/example_dir/example_blast.txt
+
+Raw ntab08 = 3982
+Used ntab08 = 3982
+Raw ntab16 = 3852
+Used ntab16 = 3852
+Raw ntab17 = 3434
+Used ntab17 = 3434
+Raw ntab20 = 3912
+Used ntab20 = 3912
