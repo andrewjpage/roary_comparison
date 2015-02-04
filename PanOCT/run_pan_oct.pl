@@ -8,6 +8,8 @@ use File::Slurp;
 use Data::Dumper;
 my ( $help,$parallel_processes );
 
+my $start_time = time();
+
 GetOptions( 'h|help'  => \$help,'parallel_processes=i' => \$parallel_processes,);
 
 if($help)
@@ -17,6 +19,7 @@ if($help)
 $parallel_processes ||=8;
 my @gff_files = @ARGV;
 
+print "Extracting proteomes and annotation\n";
 my $pm = new Parallel::ForkManager( $parallel_processes );
 for my $file (@gff_files)
 {
@@ -47,6 +50,7 @@ for my $file (@gff_files)
 }
 $pm->wait_all_children;
 
+print "Creating tags file\n";
 # Create tags file - just use the file names
 open(my $tags_fh, '>', 'run_tags.txt');
 for my $file (@gff_files)
@@ -55,6 +59,7 @@ for my $file (@gff_files)
 }
 close($tags_fh);
 
+print "Merging files\n";
 # Merge  files together
 my $faa_files = '';
 my $att_files = '';
@@ -69,6 +74,8 @@ system('grep \> run.pep > list_of_pep');
 system("cat $att_files > run.gene_att");
 system("rm $att_files");
 
+
+print "Filtering files\n";
 # Filter out annotation data where the pep isnt available
 my @lines = read_file( 'run.gene_att' ) ;
 my @list_of_pep = read_file( 'list_of_pep' ) ;
@@ -90,6 +97,12 @@ for my $att_line (@lines)
 write_file('filtered_run.gene_att',@output_gene_att);
 system("rm run.gene_att");
 # Run parallel blast
+print "Blast\n";
 system("parallel_all_against_all_blastp -p $parallel_processes -j Parallel -o run_blast.txt run.pep");
 
+print "Running PanOCT\n";
 system("perl panoct_v1.9/PanOCT.pl -t run_blast.txt -f run_tags.txt -g filtered_run.gene_att -P run.pep ");
+
+
+my $end_time = time();
+print "Running time in seconds: ".($end_time - $start_time)."\n";
