@@ -1,3 +1,0 @@
-query_1.gff
-query_2.gff
-query_3.gff
