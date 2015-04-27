@@ -8,7 +8,7 @@ use File::Slurp;
 use Data::Dumper;
 use File::Basename;
 use Cwd;
-use Bio::PanGenome::ExtractProteomeFromGFF;
+use Bio::Roary::ExtractProteomeFromGFF;
 my ( $help,$parallel_processes );
 
 my $start_time = time();
@@ -52,7 +52,7 @@ for my $file (@gff_files)
   $gffio->close();
   close($gene_att_fh);
   
-   my $obj = Bio::PanGenome::ExtractProteomeFromGFF->new(
+   my $obj = Bio::Roary::ExtractProteomeFromGFF->new(
        gff_file        => $file,
      );
    $obj->_extract_nucleotide_regions();
