@@ -101,7 +101,7 @@ print "Blast\n";
 system("parallel_all_against_all_blastp -p $parallel_processes -j Parallel -o run_blast.txt run.pep");
 
 print "Running PanOCT\n";
-system("perl panoct_v1.9/PanOCT.pl -t run_blast.txt -f run_tags.txt -g filtered_run.gene_att -P run.pep ");
+system("perl PanOCT.pl -t run_blast.txt -f run_tags.txt -g filtered_run.gene_att -P run.pep ");
 
 
 my $end_time = time();

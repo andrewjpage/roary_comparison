@@ -2047,7 +2047,7 @@ sub CheckInputFile()
 			{
 				if ($method eq "MM") 
 					{
-						@$tmparray=(@$tmparray,&chk2SEQ($species,$inputDIR)); ### check pep and nuc
+#						@$tmparray=(@$tmparray,&chk2SEQ($species,$inputDIR)); ### check pep and nuc
 						@$tmparray=(@$tmparray,&chktab($species,$inputDIR,".location"));### chk  pep nuc location
 					}else
 						{
@@ -2057,7 +2057,7 @@ sub CheckInputFile()
 ###CDS variation
 		if (substr($section,2,1) eq "1")
 			{
-				@$tmparray=(@$tmparray,&chk2SEQ($species,$inputDIR));
+#				@$tmparray=(@$tmparray,&chk2SEQ($species,$inputDIR));
 			}
 ###function analysis
 		if (substr($section,4,1) eq "1")

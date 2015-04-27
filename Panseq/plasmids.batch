@@ -1,0 +1,15 @@
+minimumNovelRegionSize	500
+numberOfCores	1
+muscleExecutable	/software/pathogen/external/apps/usr/bin/muscle
+allelesToKeep	2
+queryDirectory	/nfs/users/nfs_a/ap13/pathogens/roary_comparison/Panseq/query
+percentIdentityCutoff	90
+coreGenomeThreshold	2
+blastDirectory	/software/pubseq/bin/ncbi_blast+/
+fragmentationSize	500
+mummerDirectory	/software/pathogen/external/apps/usr/local/MUMmer3.23/
+runMode	pan
+baseDirectory	out3/
+overwrite	1
+nameOrId	name
+storeAlleles	1

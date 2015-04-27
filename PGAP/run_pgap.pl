@@ -19,7 +19,7 @@ if($help)
 {
   print "Script to run PGAP from a GFF3 file\nrun_pgap.pl *.gff";
 }
-$parallel_processes ||=8;
+$parallel_processes ||=1;
 my @gff_files = @ARGV;
 
 print "Extracting proteomes, nuc and annotation\n";
@@ -30,10 +30,12 @@ for my $file (@gff_files)
   # Extract protein sequences from the GFF files of nucleotides
   
   my($base_filename, $dirs, $suffix) = fileparse($file, qr/\.[^.]*/);
+  my $original_base_filename = $base_filename;
+  $base_filename =~ s![^a-zA-Z0-9]!!g;
   
   my $cmd = "extract_proteome_from_gff -o faa $file";
   system($cmd);
-  system("mv ${base_filename}${suffix}.faa ${base_filename}.pep");
+  system("mv ${original_base_filename}${suffix}.faa ${base_filename}.pep");
   
   # Extract annotation for each sequence
   open(my $gene_att_fh, '>', $base_filename.'.function');
@@ -65,8 +67,12 @@ my @strain_names ;
 for my $file (@gff_files)
 {
   my($base_filename, $dirs, $suffix) = fileparse($file, qr/\.[^.]*/);
+  $base_filename =~ s![^a-zA-Z0-9]!!g;
   push(@strain_names, $base_filename);
 }
 my $strain_name_input_str = join('+',@strain_names);
 my $cwdir = getcwd;
-system("perl PGAP.pl –strains $strain_name_input_str –input $cwdir –output output_directory --cluster --pangenome --variation --evolution --function –method MP");
+my $cmd = "perl PGAP.pl -strains $strain_name_input_str -input $cwdir -output output_directory --cluster --pangenome --variation --evolution -thread $parallel_processes --function -method MP";
+# Also GP method
+print $cmd."\n";
+system($cmd);
